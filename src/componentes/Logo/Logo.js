@@ -22,9 +22,9 @@ const LogoImage  = styled.img`
 function Logo(){
   return (
     <LogoContainer>
-        <LogoLink href='/'>
+        <LogoLink>
           <LogoImage src={logo} alt='Logo'/>
-          <p><strong>Books</strong></p>
+          <p><strong>Dev Books</strong></p>
         </LogoLink>
     </LogoContainer>  
 )

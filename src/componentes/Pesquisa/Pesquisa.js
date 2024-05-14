@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Input from '../Input/Input'
 import styled from 'styled-components'
 import { useState } from 'react'
-import { livros } from './dadosPesquisa'
+import { getLivros } from '../../servicos/servicos'
+import { postFavorito } from '../../servicos/favoritos'
+
 
 const PesquisaContainer = styled.section`
   background-image: linear-gradient(90deg, #002F52 35%, #326589 165%);
@@ -18,7 +20,6 @@ const Titulo = styled.h2`
   width: 100%;    
 
 `
-
 const Subtitulo = styled.h3`
   font-size: 16px;
   font-weight: 500;
@@ -39,10 +40,27 @@ const Resultado = styled.div`
 `
 
 
-
-
 const Pesquisa = () => {
   const [livroPesquisados, setLivroPesquisados] = useState([])
+  const [livros, setLivros] = useState([])
+
+  useEffect(() => {
+    fetchLivros()
+  }, [])
+
+  async function fetchLivros(){
+    const livrosDaApi = await getLivros()
+    setLivros(livrosDaApi)
+  }
+
+  async function insertFavorito(id){
+    try {
+      await postFavorito(id)
+      alert('Livro adicionado aos favoritos')
+    } catch (error) {
+      console.error('Houve um problema com a chamada postFavorito: ', error)
+    }
+  }
 
   return (
     <PesquisaContainer>
@@ -56,9 +74,8 @@ const Pesquisa = () => {
             setLivroPesquisados(resultadoPesquisa)
           }}
           />
-
         {livroPesquisados.map(livro => (
-          <Resultado>
+          <Resultado onClick={() => insertFavorito(livro.id)}>
             {/* eslint-disable-next-line jsx-a11y/alt-text */}
             <img src={livro.src}/>
             <p>{livro.nome}</p>

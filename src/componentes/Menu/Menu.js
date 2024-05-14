@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 import styled from 'styled-components'
+import {Link} from "react-router-dom" 
 
 const Opcoes = styled.ul`
   display: flex;
@@ -24,13 +25,15 @@ const OpcaoLink = styled.a`
 `
 
 
-const textoOpcoes = ['CATEGORIAS', 'MINHA ESTANTE', 'FAVORITOS', ] 
+const textoOpcoes = ['CATEGORIAS', 'FAVORITOS',  'ESTANTE'] 
 
 const Menu = () => {
   return (
     <Opcoes>
         {textoOpcoes.map((texto) => (
-        <Opcao><OpcaoLink href='#'>{texto}</OpcaoLink></Opcao>
+        <Link to={`/${texto.toLocaleLowerCase()}`}>
+          <Opcao><OpcaoLink href='#'>{texto}</OpcaoLink></Opcao>
+        </Link>
         ))}
     </Opcoes>
   )
